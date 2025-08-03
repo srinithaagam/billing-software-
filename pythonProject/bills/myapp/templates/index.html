@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<h1 class="mb-4">📋 Billing Dashboard</h1>
+<a href="{% url 'create_bill' %}">Create New Bill</a>
+<a href="{% url 'add_item' %}">Add to Bill #1</a>
+{% for bill in bills %}
+  <a href="{% url 'add_item' bill.id %}">Add to Bill #{{ bill.id }}</a>
+{% endfor %}
+<a href="{% url 'history' %}" class="btn btn-outline-secondary">📚 Bill History</a>
+{% endblock %}
