@@ -1,0 +1,36 @@
+<!-- templates/pdf_template.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Bill PDF - {{ bill.bill_number }}</title>
+</head>
+<body>
+    <h2 style="text-align: center;">Bill #{{ bill.bill_number }}</h2>
+    <p><strong>Customer:</strong> {{ bill.customer_name }}</p>
+    <p><strong>Date:</strong> {{ bill.created_at|date:"Y-m-d H:i" }}</p>
+
+    <table width="100%" border="1" cellspacing="0" cellpadding="5">
+        <thead>
+            <tr>
+                <th>Material</th>
+                <th>Quantity</th>
+                <th>Rate</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.material }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.rate }}</td>
+                <td>{{ item.total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3 style="text-align: right;">Grand Total: ₹{{ total }}</h3>
+</body>
+</html>

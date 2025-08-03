@@ -1,39 +1,35 @@
-{% extends 'base.html' %}
-{% block title %}Final Bill{% endblock %}
-{% block content %}
-<h2 class="mb-4">🧾 Invoice - {{ bill.formatted_bill_number }}</h2>
-<p><strong>Customer:</strong> {{ bill.customer_name }}</p>
-<p><strong>Date:</strong> {{ bill.created_at }}</p>
+<!-- templates/bill.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bill #{{ bill.bill_number }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="p-4">
+    <div class="container">
+        <h2>Bill #{{ bill.bill_number }}</h2>
+        <p><strong>Customer:</strong> {{ bill.customer_name }}</p>
+        <p><strong>Date:</strong> {{ bill.created_at|date:"Y-m-d H:i" }}</p>
 
-<table class="table table-bordered">
-    <thead class="table-light">
-        <tr>
-            <th>#</th>
-            <th>Material</th>
-            <th>Quantity</th>
-            <th>Rate</th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for item in bill.items.all %}
-        <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ item.material }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>{{ item.rate }}</td>
-            <td>{{ item.total }}</td>
-        </tr>
-        {% endfor %}
-        <tr class="table-success">
-            <td colspan="4" class="text-end"><strong>Total</strong></td>
-            <td><strong>Rs {{ total|floatformat:2 }}</strong></td>
-        </tr>
-    </tbody>
-</table>
-<div class="text-end no-print">
-    <button onclick="window.print()" class="btn btn-outline-primary">🖨️ Print</button>
-    <a href="{% url 'export_pdf' bill.id %}" class="btn btn-secondary">📄 Export PDF</a>
-    <a href="{% url 'index' %}" class="btn btn-dark">🏠 Home</a>
-</div>
-{% endblock %}
+        <table class="table table-bordered">
+            <thead>
+                <tr><th>Material</th><th>Quantity</th><th>Rate</th><th>Total</th></tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.material }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.rate }}</td>
+                    <td>{{ item.total }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h4>Total: ₹{{ overall_total }}</h4>
+        <a href="{% url 'bill_pdf' bill.id %}" class="btn btn-success">Download PDF</a>
+        <a href="{% url 'history' %}" class="btn btn-outline-dark">Back</a>
+    </div>
+</body>
+</html>
